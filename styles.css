@@ -1,0 +1,564 @@
+/* ==========================================================================
+   1. SKRIFT, FARGER & GRUNNLEGGENDE OPPSETT
+   ========================================================================== */
+@font-face { font-family: "Trykkskrift"; src: url("skrift/Tor-trykkskrift.otf") format("opentype"); font-weight: normal; font-style: normal; font-display: swap; }
+:root { --blue-main: #0277bd; --blue-hover: #01579b; --blue-tint: #e1f5fe; --blue-border: #38bdf8; --amber-bg: #fef3c7; --amber-border: #f59e0b; --amber-text: #92400e; --bg-canvas: #cbd5e1; --sidebar-bg: #f1f5f9; --card-bg: #ffffff; --border: #e2e8f0; --text-dark: #0f172a; --text-muted: #64748b; }
+* { box-sizing: border-box; }
+body, button, input, select, textarea { margin: 0; font-family: "Segoe UI", system-ui, -apple-system, BlinkMacSystemFont, Roboto, sans-serif; }
+body { background: var(--bg-canvas); color: var(--text-dark); }
+.a4-sheet { font-family: "Trykkskrift", "Segoe UI", system-ui, -apple-system, sans-serif; }
+.app-layout { display: flex; min-height: 100vh; }
+
+/* ==========================================================================
+   2. VENSTREMENY (SIDEBAR & ARK-KORT)
+   ========================================================================== */
+.sidebar { width: 450px; min-width: 450px; flex: 0 0 450px; background: var(--sidebar-bg); border-right: 1px solid #cbd5e1; padding-right: 16px; display: flex; flex-direction: column; height: 100vh; position: sticky; top: 0; z-index: 30; }
+
+.sidebar-top { padding: 13px 0 18px 14px; display: flex; align-items: center; justify-content: space-between; gap: 8px; background: var(--sidebar-bg); }
+.brand-group { display: flex; align-items: center; gap: 10px; }
+.brand-icon { width: 46px; height: 46px; border-radius: 50%; background: #15803d; color: #ffffff; display: flex; align-items: center; justify-content: center; flex-shrink: 0; transition: transform 0.15s ease, filter 0.15s ease; }
+.brand-icon:hover { transform: scale(1.06); filter: brightness(1.05); }
+.brand-icon img { width: 100%; height: 100%; object-fit: contain; }
+.sidebar-top h1 { font-size: 1.08rem; font-weight: 700; margin: 0; color: var(--text-dark); line-height: 1.2; white-space: nowrap; }
+.sidebar-top .subtitle { margin: 3px 0 0; font-size: 0.82rem; color: var(--text-muted); white-space: nowrap; }
+.btn-login-pill { display: inline-flex; align-items: center; gap: 6px; background: var(--amber-bg); border: 1px solid #fcd34d; color: var(--amber-text); font-size: 0.78rem; font-weight: 700; padding: 6px 12px; border-radius: 9999px; cursor: pointer; white-space: nowrap; }
+.btn-login-pill.logged-in { background: #ecfdf5; border-color: #a7f3d0; color: #166534; }
+.sidebar-section-label { padding: 4px 16px 10px; font-size: 0.72rem; font-weight: 700; letter-spacing: 0.04em; color: #475569; text-transform: uppercase; }
+
+.sheet-cards-list { flex: 1; overflow-y: auto; padding: 2px 6px 14px 14px; display: flex; flex-direction: column; gap: 10px; }
+.sheet-card { background: var(--card-bg); border: 1.5px solid var(--border); border-radius: 11px; padding: 11px 12px; cursor: pointer; transition: border-color 0.15s, box-shadow 0.15s, opacity 0.15s; }
+.sheet-card:hover { border-color: #86efac; }
+.sheet-card.active { border-color: #16a34a; box-shadow: 0 0 0 2px rgba(22, 163, 74, 0.16); }
+.sheet-card.is-hidden-sheet { opacity: 0.58; background: #f8fafc; }
+.card-top-row { display: flex; align-items: center; justify-content: space-between; gap: 8px; margin-bottom: 10px; }
+.card-title-left { display: flex; align-items: center; gap: 7px; font-size: 0.88rem; font-weight: 700; color: var(--text-dark); }
+.card-title-left svg { color: #15803d; flex-shrink: 0; }
+.card-meta-right { display: flex; align-items: center; gap: 8px; }
+.week-badge { font-size: 0.74rem; font-weight: 600; color: #166534; background: #dcfce7; border: 1px solid #86efac; padding: 2px 8px; border-radius: 6px; }
+
+/* Grønn stil på spesialarkene (Repetering 1, Repetering 2 og Oppsummering) */
+.week-badge.special-badge {
+  background: #dcfce7;
+  color: #166534;
+  border-color: #86efac;
+}
+
+.special-sheet-card .card-title-left svg {
+  color: #15803d;
+}
+.eye-btn { background: none; border: none; padding: 2px; cursor: pointer; color: #475569; display: flex; align-items: center; justify-content: center; border-radius: 5px; }
+.eye-btn:hover { background: #f0fdf4; color: #15803d; }
+.card-controls-row { display: flex; align-items: center; justify-content: space-between; gap: 6px; flex-wrap: wrap; }
+.pill-group { display: inline-flex; border: 1px solid #cbd5e1; border-radius: 6px; overflow: hidden; background: #ffffff; }
+.pill-btn { border: none; background: transparent; padding: 4px 8px; font-size: 0.72rem; font-weight: 600; color: #475569; cursor: pointer; border-right: 1px solid #e2e8f0; transition: background 0.12s, color 0.12s; }
+.pill-btn:last-child { border-right: none; }
+.pill-btn:hover { background: #f8fafc; }
+.pill-btn.active { background: #15803d; color: #ffffff; }
+
+.card-subtasks-row { margin-top: 8px; padding-top: 8px; border-top: 1px dashed #e2e8f0; display: flex; flex-wrap: wrap; gap: 5px; }
+.mini-chip { font-size: 0.7rem; font-weight: 600; padding: 3px 7px; border-radius: 5px; border: 1px solid #cbd5e1; background: #f8fafc; color: #475569; cursor: pointer; }
+.mini-chip.on { background: #dcfce7; border-color: #4ade80; color: #166534; }
+.sidebar-bottom { padding: 12px 14px 14px; background: var(--sidebar-bg); border-top: 1px solid #cbd5e1; display: flex; flex-direction: column; gap: 10px; }
+
+.bottom-tools-row { display: flex; align-items: center; justify-content: space-between; gap: 10px; }
+.btn-outline-tool { display: inline-flex; align-items: center; gap: 6px; background: #ffffff; border: 1px solid #cbd5e1; border-radius: 8px; padding: 6px 11px; font-size: 0.8rem; font-weight: 600; color: var(--text-dark); cursor: pointer; }
+.btn-outline-tool:hover { background: #f8fafc; border-color: #94a3b8; }
+.page-num-toggle { display: inline-flex; align-items: center; gap: 6px; font-size: 0.8rem; font-weight: 600; color: #334155; cursor: pointer; }
+.page-num-toggle input { width: 15px; height: 15px; accent-color: #15803d; }
+.btn-print-main { width: 100%; background: #15803d; color: #ffffff; border: none; border-radius: 9px; padding: 11px 16px; font-size: 0.92rem; font-weight: 700; display: flex; align-items: center; justify-content: center; gap: 8px; cursor: pointer; box-shadow: 0 2px 6px rgba(21, 128, 61, 0.25); }
+.btn-print-main:hover { background: #166534; }
+
+/* Innloggingsmodal & Vannmerke (Hånes skole) */
+.auth-modal-box, .auth-modal-box input, .auth-modal-box button, .btn-login-pill { font-family: "Segoe UI", system-ui, -apple-system, sans-serif; }
+.auth-modal-box { background: #ffffff; border-radius: 16px; max-width: 420px; width: 92vw; overflow: hidden; box-shadow: 0 24px 48px rgba(15, 23, 42, 0.35); border: 1px solid #f1f5f9; }
+.auth-modal-header { background: #15803d; padding: 20px 24px; color: #ffffff; display: flex; align-items: center; gap: 14px; }
+.auth-modal-icon { background: rgba(255, 255, 255, 0.16); padding: 10px; border-radius: 12px; display: flex; align-items: center; justify-content: center; }
+.auth-modal-header h3 { margin: 0; font-size: 1.2rem; font-weight: 700; line-height: 1.25; color: #ffffff; }
+.auth-modal-header p { margin: 2px 0 0; font-size: 0.78rem; color: #dcfce7; }
+.auth-modal-form { padding: 24px; display: flex; flex-direction: column; gap: 15px; }
+.auth-field label { display: block; font-size: 0.74rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; color: #64748b; margin-bottom: 6px; }
+.auth-field input { width: 100%; box-sizing: border-box; padding: 10px 14px; border: 1px solid #cbd5e1; border-radius: 12px; font-size: 0.92rem; color: #0f172a; }
+.auth-field input:focus { outline: none; border-color: #16a34a; box-shadow: 0 0 0 3px rgba(22, 163, 74, 0.18); }
+.auth-error-msg { margin: 0; font-size: 0.8rem; font-weight: 600; color: #e11d48; }
+.auth-btn-primary { width: 100%; padding: 11px 16px; background: #15803d; color: #ffffff; border: none; border-radius: 12px; font-size: 0.92rem; font-weight: 700; cursor: pointer; box-shadow: 0 4px 10px rgba(21, 128, 61, 0.25); }
+.auth-btn-primary:hover { background: #166534; }
+.auth-divider { position: relative; text-align: center; margin: 2px 0; }
+.auth-divider::before { content: ""; position: absolute; left: 0; right: 0; top: 50%; border-top: 1px solid #e2e8f0; }
+.auth-divider span { position: relative; background: #ffffff; padding: 0 10px; font-size: 0.75rem; color: #94a3b8; }
+.auth-btn-secondary { width: 100%; padding: 10px 14px; background: #f1f5f9; color: #334155; border: none; border-radius: 12px; font-size: 0.8rem; font-weight: 600; cursor: pointer; }
+.auth-btn-secondary:hover { background: #e2e8f0; }
+
+/* ==========================================================================
+   VANNMERKE (STEMPEL MED LOGO & RETTIGHETSTEKST)
+   ========================================================================== */
+body.show-watermark .a4-sheet {
+  position: relative !important;
+  overflow: hidden !important;
+}
+
+/* Lag 1 (::before): Logoen sentrert midt i stempelet */
+body.show-watermark .a4-sheet::before {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 310px;
+  height: 310px;
+  background-image: url("haanes-logo.png");
+  background-repeat: no-repeat;
+  background-position: center center;
+  background-size: contain;
+  opacity: 0.08;
+  pointer-events: none;
+  z-index: 39;
+  -webkit-print-color-adjust: exact;
+  print-color-adjust: exact;
+}
+
+/* Lag 2 (::after): Rettighetstekst rett over topptekst-streken + seglringer, 2026 og hovedbanner */
+body.show-watermark .a4-sheet::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-repeat: no-repeat;
+  background-position: center center;
+  background-size: 100% 100%;
+  opacity: 0.28;
+  pointer-events: none;
+  z-index: 40;
+  -webkit-print-color-adjust: exact;
+  print-color-adjust: exact;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 800 1131'><text x='400' y='44' text-anchor='middle' font-family='Arial, Helvetica, sans-serif' font-weight='700' font-size='13' letter-spacing='1.8' fill='%230369a1'>RETTIGHETER FOR SIDEN TILHØRER HÅNES SKOLE</text><g transform='translate(400,565) scale(0.92)' stroke='%230369a1' fill='none'><circle r='265' stroke-width='10'/><circle r='250' stroke-width='3.5' stroke-dasharray='10 6'/><circle r='212' stroke-width='4'/><text x='0' y='190' text-anchor='middle' font-family='Arial Black, Impact, sans-serif' font-weight='900' font-size='28' letter-spacing='5' fill='%230369a1' stroke='none'>2026</text><g transform='rotate(-28)'><rect x='-365' y='-78' width='730' height='156' rx='22' fill='none' stroke-width='9'/><rect x='-351' y='-64' width='702' height='128' rx='14' fill='none' stroke-width='3' stroke-dasharray='10 6'/><text x='0' y='6' text-anchor='middle' font-family='Arial Black, Impact, sans-serif' font-weight='900' font-size='64' letter-spacing='6' fill='%230369a1' stroke='none'>HÅNES SKOLE</text><line x1='-260' y1='22' x2='260' y2='22' stroke-width='2.5'/><text x='0' y='49' text-anchor='middle' font-family='Arial, Helvetica, sans-serif' font-weight='800' font-size='21' letter-spacing='5' fill='%230369a1' stroke='none'>★ 1. KLASSE • ARBEIDSHEFTE ★</text></g></g></svg>");
+}
+
+/* Forside og mellomside mangler topptekst-linje, så der vises kun selve stempelet uten tekstlinjen på toppen */
+body.show-watermark #sheet-page-cover::after,
+body.show-watermark #sheet-page-cover-back::after {
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 800 1131'><g transform='translate(400,565) scale(0.92)' stroke='%230369a1' fill='none'><circle r='265' stroke-width='10'/><circle r='250' stroke-width='3.5' stroke-dasharray='10 6'/><circle r='212' stroke-width='4'/><text x='0' y='190' text-anchor='middle' font-family='Arial Black, Impact, sans-serif' font-weight='900' font-size='28' letter-spacing='5' fill='%230369a1' stroke='none'>2026</text><g transform='rotate(-28)'><rect x='-365' y='-78' width='730' height='156' rx='22' fill='none' stroke-width='9'/><rect x='-351' y='-64' width='702' height='128' rx='14' fill='none' stroke-width='3' stroke-dasharray='10 6'/><text x='0' y='6' text-anchor='middle' font-family='Arial Black, Impact, sans-serif' font-weight='900' font-size='64' letter-spacing='6' fill='%230369a1' stroke='none'>HÅNES SKOLE</text><line x1='-260' y1='22' x2='260' y2='22' stroke-width='2.5'/><text x='0' y='49' text-anchor='middle' font-family='Arial, Helvetica, sans-serif' font-weight='800' font-size='21' letter-spacing='5' fill='%230369a1' stroke='none'>★ 1. KLASSE • ARBEIDSHEFTE ★</text></g></g></svg>");
+}
+
+@media print {
+  body.show-watermark .a4-sheet::before {
+    opacity: 0.09 !important;
+  }
+  body.show-watermark .a4-sheet::after {
+    opacity: 0.30 !important;
+  }
+}
+
+
+/* ==========================================================================
+   3. A4-ARK, TOPPTEKST & BUNNTEKST
+   ========================================================================== */
+.preview-area { flex: 1; padding: 32px 24px; background: var(--bg-canvas); display: flex; flex-direction: column; align-items: center; gap: 36px; overflow-y: auto; }
+.a4-sheet { width: 210mm; height: 297mm; min-height: 297mm; max-height: 297mm; background: #ffffff; padding: 10mm 14mm 7mm; border: 1px solid #94a3b8; box-shadow: 0 12px 28px rgba(15, 23, 42, 0.22); position: relative; overflow: hidden; display: flex; flex-direction: column; justify-content: space-between; scroll-margin-top: 24px; }
+.sheet-inner-top { display: flex; flex-direction: column; flex: 1; overflow: hidden; }
+.sheet-header { display: flex; justify-content: space-between; align-items: flex-end; border-bottom: 2px solid #1e293b; padding-bottom: 6px; margin-bottom: 10px; }
+.sheet-title-block h1 { font-size: 1.25rem; margin: 0; color: #0f172a; }
+.sheet-title-block span { font-size: 0.84rem; color: #475569; font-weight: 600; }
+.student-meta { font-size: 0.88rem; }
+.line-fill { display: inline-block; border-bottom: 1.5px solid #334155; min-width: 135px; }
+.a4-sheet.norsk-sheet .sheet-header { padding-left: 12px; padding-right: 12px; }
+.sheet-header.matte-header, .sheet-header:has(+ .matte) { border-bottom: none; padding: 0 12px 4px 12px; margin-bottom: 8px; box-sizing: border-box; }
+.sheet-footer { border-top: 1px solid #cbd5e1; padding-top: 4px; font-size: 0.75rem; color: #64748b; display: flex; justify-content: space-between; }
+.a4-sheet.norsk-sheet .sheet-footer, .a4-sheet:not(.toc-sheet):not(.cover-back-sheet) .sheet-footer { font-size: 0.92rem; font-weight: 700; color: #1e293b; padding-left: 12px; padding-right: 12px; padding-top: 5px; padding-bottom: 0; margin-bottom: -4px; }
+.sheet-footer.hide-pagenum .page-num-text { visibility: hidden; }
+
+
+/* ==========================================================================
+   4. ARK 0: FORSIDE, INNHOLDSFORTEGNELSE & MELLOMSIDE
+   ========================================================================== */
+#sheet-page-cover .sheet-header, #sheet-page-cover .sheet-footer, #sheet-page-cover-back .sheet-header, #sheet-page-cover-back .sheet-footer { display: none; }
+#sheet-page-cover .hefte-cover { min-height: 266mm; margin-top: 4mm; margin-bottom: 4mm; }
+.hefte-cover { position: relative; display: flex; flex-direction: column; align-items: center; text-align: center; height: 100%; min-height: 266mm; background: #ffffff; border: 3px solid #059669; border-radius: 16px; overflow: hidden; box-sizing: border-box; }
+.cover-inner-border { position: absolute; inset: 4px; border: 1px solid #e2e8f0; border-radius: 12px; pointer-events: none; z-index: 20; }
+.cover-top-blobs { position: absolute; top: 0; left: 0; right: 0; height: 13mm; overflow: hidden; pointer-events: none; }
+.cover-blob-top-1 { position: absolute; top: -10mm; left: 25%; width: 66%; height: 20mm; background: #dcfce7; border-radius: 9999px; }
+.cover-blob-top-2 { position: absolute; top: -14mm; right: 0; width: 50%; height: 24mm; background: #bbf7d0; border-radius: 9999px; opacity: 0.85; }
+.cover-bottom-blobs { position: absolute; bottom: 0; left: 0; right: 0; height: 13mm; overflow: hidden; pointer-events: none; }
+.cover-blob-bot-1 { position: absolute; bottom: -10mm; left: -10%; width: 120%; height: 20mm; background: #dcfce7; border-radius: 50%; }
+.cover-blob-bot-2 { position: absolute; bottom: -14mm; right: -10%; width: 120%; height: 20mm; background: #86efac; border-radius: 50%; opacity: 0.8; }
+.cover-header-block { position: relative; z-index: 10; margin-top: 14mm; padding: 0 5mm; width: 100%; }
+.cover-title { font-size: 36pt; font-weight: 700; color: #052e16; line-height: 1.15; margin: 4mm 0 0; }
+.cover-divider { width: 75%; height: 6px; margin: 3mm auto 0; border-radius: 9999px; background: #4ade80; }
+.cover-subtitle { font-size: 16pt; color: #64748b; font-weight: 500; margin: 4mm 0 0; }
+.cover-info-box { position: relative; z-index: 10; width: 65%; max-width: 117mm; background: #f0fdf4; border: 2px solid #4ade80; border-radius: 16px; padding: 6mm 7mm; margin-top: 8mm; text-align: left; box-shadow: 0 1px 2px rgba(0,0,0,0.05); }
+.cover-bullets { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 4mm; color: #1e293b; font-size: 13.5pt; font-weight: 500; }
+.cover-bullets li { display: flex; align-items: flex-start; gap: 3mm; line-height: 1.45; }
+.cover-dot { display: inline-block; width: 3mm; height: 3mm; border-radius: 9999px; background: #15803d; margin-top: 2.2mm; flex-shrink: 0; }
+.cover-image-wrap { position: relative; z-index: 10; width: 86%; max-width: 150mm; margin-top: 7mm; margin-bottom: 4mm; }
+.cover-image-frame { background: #f0fdf4; border: 3px solid #22c55e; border-radius: 26px; padding: 5mm; box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1), 0 4px 6px -4px rgba(0,0,0,0.1); display: flex; align-items: center; justify-content: center; }
+.cover-image { width: 100%; max-height: 82mm; object-fit: contain; border-radius: 12px; display: block; margin: 0; }
+.cover-name-box { display: flex; align-items: flex-end; gap: 4mm; width: 65%; max-width: 117mm; margin-top: auto; margin-bottom: 20mm; background: transparent; border: 1.5px solid #86efac; border-radius: 12px; padding: 9mm 7mm 5mm; font-size: 14pt; color: #14532d; }
+.cover-bottom-area { position: relative; z-index: 10; margin-top: 0; margin-bottom: 9mm; width: 100%; display: flex; flex-direction: column; align-items: center; gap: 4.5mm; }
+.cover-line { flex: 1; border-bottom: 2px solid #22c55e; height: 6mm; min-width: 18mm; }
+.cover-line:first-of-type { flex: 2.2; }
+.cover-school-footer { display: flex; align-items: center; justify-content: center; gap: 4mm; width: 100%; padding: 0 8mm; }
+.cover-school-footer .school-line { height: 2px; flex: 1; max-width: 22mm; background: #16a34a; }
+.cover-school-footer .school-name { font-family: "Tor-trykkskrift", system-ui, -apple-system, sans-serif; color: #14532d; font-weight: 700; font-size: 10pt; letter-spacing: 0.1em; text-transform: uppercase; white-space: nowrap; }
+
+/* Innholdsfortegnelse (Side 2) */
+.a4-sheet.toc-sheet .sheet-inner-top { padding-top: 28px; padding-left: 24px; padding-right: 24px; }
+.a4-sheet.toc-sheet .sheet-header { margin-bottom: 22px; }
+.hefte-toc { padding-top: 4mm; }
+.toc-intro { color: #475569; margin-bottom: 8mm; font-size: 11pt; }
+.toc-list { display: flex; flex-direction: column; gap: 4.5mm; }
+.toc-row { display: flex; align-items: baseline; font-size: 11pt; color: #1e293b; }
+.toc-left { display: flex; gap: 6px; white-space: nowrap; }
+.toc-sheet { font-weight: 700; color: #1e293b; }
+.toc-week { color: #64748b; }
+.toc-letters { margin-left: 6px; color: #15803d; font-weight: 600; }
+.toc-dots { flex: 1; border-bottom: 2px dotted #cbd5e1; margin: 0 8px; }
+.toc-right { display: flex; gap: 12px; white-space: nowrap; }
+.toc-page { font-weight: 700; min-width: 36px; text-align: right; color: #1e293b; }
+.a4-sheet:has(.hefte-toc) .sheet-header > *:first-child, .a4-sheet:has(.hefte-toc) .sheet-header > *:first-child * { font-size: 36pt !important; }
+
+/* Mellomside i Ark 0 (Side 3) */
+.a4-sheet.cover-back-sheet .sheet-inner-top { display: flex; flex-direction: column; justify-content: center; align-items: center; height: 100%; }
+.hefte-cover.hefte-cover-faded { opacity: 0.22; transform: scale(0.75); transform-origin: center center; margin: auto; }
+
+/* ==========================================================================
+   5. FELLES OPPGAVERAMMER FOR FAGARK
+   ========================================================================== */
+.subject-pill-tag { display: inline-block; font-size: 0.76rem; font-weight: 700; background: #f1f5f9; color: #334155; border: 1px solid #cbd5e1; padding: 2px 8px; border-radius: 6px; vertical-align: middle; margin-left: 6px; }
+.subject-section { border: none; padding: 0; margin-bottom: 10px; flex: 1; display: flex; flex-direction: column; justify-content: space-between; gap: 8px; }
+.subject-banner { display: inline-block; align-self: flex-start; font-weight: 700; font-size: 1rem; padding: 4px 12px; border-radius: 7px; margin-bottom: 4px; }
+.norsk .subject-banner { background: #e0f2fe; color: #0369a1; }
+.matte .subject-banner { background: #ccfbf1; color: #115e59; }
+.task-block { border: 1.5px solid #94a3b8; border-radius: 12px; padding: 8px 14px; background: #ffffff; margin-bottom: 0; }
+.norsk .task-block { border-color: #0284c7; }
+.matte .task-block { border-color: #0d9488; }
+.task-title { font-weight: 700; font-size: 0.94rem; margin: 0 0 6px; }
+
+/* ==========================================================================
+   6. NORSK / SKRIVING
+   ========================================================================== */
+.letter-intro-stack { display: flex; flex-direction: column; gap: 10px; align-items: stretch; }
+.letter-pair-row { display: grid; grid-template-columns: 155px 1fr; gap: 14px; align-items: start; }
+.media-box { border: 1.5px dashed #94a3b8; border-radius: 10px; padding: 6px; height: 96px; min-height: 96px; margin-top: 21px; display: flex; flex-direction: column; align-items: center; justify-content: center; background: #f8fafc; }
+.media-box img { max-height: 82px; max-width: 100%; object-fit: contain; }
+.fallback-letter { font-size: 3rem; font-weight: 800; color: #0369a1; letter-spacing: 5px; }
+.bokstavhus-wrapper { width: 100%; height: 122px; display: flex; align-items: center; }
+.bokstavhus-svg { width: 100%; height: 122px; display: block; }
+.center-letter-badge { min-width: 124px; height: 96px; padding: 0 22px; border-radius: 48px; border: 3.5px solid #0284c7; background: linear-gradient(180deg, #ffffff 0%, #e0f2fe 100%); box-shadow: 0 0 0 4px #f0f9ff, 0 4px 10px rgba(2, 132, 199, 0.14); display: flex; align-items: center; justify-content: center; gap: 14px; font-size: 3rem; font-weight: 800; line-height: 1; }
+.badge-letter-pair { display: inline-block; transform: translateY(4px); }
+.match-grid { display: grid; grid-template-columns: 1fr auto 1fr; gap: 90px; align-items: center; }
+.match-col { display: flex; flex-direction: column; gap: 12px; }
+.match-item { border: none; background: transparent; padding: 3px 0; display: flex; align-items: center; }
+.match-col.left-col .match-item { justify-content: flex-end; }
+.match-col.right-col .match-item { justify-content: flex-start; }
+.match-item .word-icon-img { width: 64px; height: 64px; object-fit: contain; }
+.match-item .word-emoji-fallback { font-size: 2.7rem; line-height: 1; }
+.task-letter { font-weight: 800; font-size: 2em; line-height: 1; }
+.vowel-letter { color: #dc2626; }
+.consonant-letter { color: #0284c7; }
+.word-houses-stack { display: flex; flex-direction: column; gap: 9px; }
+.word-house-row { width: 100%; }
+.ordhus-svg { width: 100%; height: auto; display: block; }
+.rhyme-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 120px; align-items: center; padding: 2px 40px; }
+.rhyme-col { display: flex; flex-direction: column; gap: 8px; }
+.rhyme-col.left-col .rhyme-item { justify-content: flex-end; }
+.rhyme-col.right-col .rhyme-item { justify-content: flex-start; }
+.rhyme-item { display: flex; align-items: center; }
+.rhyme-item .word-icon-img { width: 58px; height: 58px; object-fit: contain; }
+.rhyme-item .word-emoji-fallback { font-size: 2.4rem; line-height: 1; }
+.rhyme-grid-horizontal { display: flex; flex-direction: column; gap: 36px; padding: 4px 30px; }
+.rhyme-row { display: grid; grid-template-columns: repeat(3, 1fr); justify-items: center; align-items: center; }
+
+
+/* ==========================================================================
+   REPETERING 1, REPETERING 2 & OPPSUMMERING
+   ========================================================================== */
+.special-sheet-card { background: #f8fafc; border-color: #cbd5e1; }
+.special-sheet-card .card-title-left svg { color: #0284c7; }
+.special-badge { background: #e0f2fe; border-color: #bae6fd; color: #0369a1; }
+.toc-row-special .toc-sheet { color: #0369a1; }
+
+.rep-section { justify-content: flex-start; gap: 16px; }
+.rep-section .task-block { padding: 12px 15px; }
+.rep-section .task-title { margin-bottom: 10px; }
+
+/* Repetering 1: Vokal eller konsonant */
+.rep-roof-row { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; margin-bottom: 14px; }
+.rep-roof-box { text-align: center; font-family: "Trykkskrift", sans-serif; font-size: 1.05rem; font-weight: 700; letter-spacing: 1.5px; color: #ffffff; padding: 9px 12px; border-radius: 8px; border: 2px solid #0f172a; }
+.roof-vowel { background: #ef1c1c; }
+.roof-consonant { background: #0284c7; }
+.rep-letters-scatter { display: flex; flex-wrap: wrap; justify-content: space-around; align-items: center; gap: 10px; padding: 8px 6px 2px; }
+.rep-letter-pill { font-family: "Trykkskrift", sans-serif; font-size: 2.3rem; line-height: 1; width: 46px; height: 48px; border: 1.5px solid #cbd5e1; border-radius: 10px; display: inline-flex; align-items: center; justify-content: center; background: #ffffff; }
+
+/* Repetering 1: Førstelyd */
+.rep-sound-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
+.rep-sound-card { border: 1px solid #cbd5e1; border-radius: 10px; padding: 8px; display: flex; flex-direction: column; align-items: center; gap: 6px; background: #ffffff; }
+.rep-sound-img { height: 52px; display: flex; align-items: center; justify-content: center; }
+.rep-sound-img .word-icon-img { max-height: 50px; width: auto; }
+.rep-sound-img .word-emoji-fallback { font-size: 2.2rem; }
+.rep-sound-choices { display: flex; gap: 14px; }
+.rep-choice-circle { font-family: "Trykkskrift", sans-serif; font-size: 1.85rem; line-height: 1; padding: 2px 8px; border-radius: 8px; background: #f8fafc; border: 1px dashed #cbd5e1; }
+
+/* Repetering 1: Les og sett strek */
+.rep-read-match-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 90px; padding: 2px 16px; }
+.rep-read-match-grid.cols-3 { grid-template-columns: repeat(3, 1fr); gap: 48px; padding: 2px 8px; }
+.rep-read-col { display: flex; flex-direction: column; gap: 6px; }
+.rep-word-card, .rep-img-card { height: 42px; border: 1px solid #cbd5e1; border-radius: 9px; display: flex; align-items: center; justify-content: center; background: #ffffff; }
+.rep-word-card { font-family: "Trykkskrift", sans-serif; font-size: 2rem; color: #0f172a; }
+.rep-img-card .word-icon-img { max-height: 36px; max-width: 110px; width: auto; object-fit: contain; }
+.rep-img-card .word-emoji-fallback { font-size: 1.8rem; }
+
+/* Skriv ord i ordhus (kompakt rad med bilde) */
+.rep-write-stack { display: flex; flex-direction: column; gap: 10px; }
+.rep-write-row { display: flex; align-items: center; gap: 14px; }
+.rep-write-pic { width: 68px; height: 68px; border: 1px solid #cbd5e1; border-radius: 10px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; background: #ffffff; }
+.rep-write-pic .word-icon-img { max-height: 56px; max-width: 56px; object-fit: contain; }
+.rep-write-pic .word-emoji-fallback { font-size: 2.3rem; }
+.rep-write-house { flex: 1; }
+.ordhus-svg-compact { width: 100%; height: auto; max-height: 76px; display: block; }
+
+/* Repetering 2: Stor og liten bokstav */
+.rep-case-rows { display: flex; flex-direction: column; gap: 38px; padding: 4px 2px; }
+.rep-case-row { display: grid; grid-template-columns: repeat(10, 1fr); gap: 6px; }
+.rep-case-tile { font-family: "Trykkskrift", sans-serif; font-size: 2rem; height: 48px; border: 1.5px solid #cbd5e1; border-radius: 9px; display: flex; align-items: center; justify-content: center; background: #ffffff; }
+
+/* Repetering 2: Finn bokstaven i ordet */
+.rep-pos-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
+.rep-pos-card { border: 1px solid #cbd5e1; border-radius: 10px; padding: 8px; display: flex; flex-direction: column; align-items: center; gap: 6px; background: #ffffff; }
+.rep-pos-header { width: 100%; display: flex; justify-content: flex-start; }
+.rep-pos-letter { font-family: "Trykkskrift", sans-serif; font-size: 1.5rem; font-weight: 700; padding: 1px 8px; border-radius: 6px; background: #f1f5f9; }
+.rep-pos-img { height: 50px; display: flex; align-items: center; justify-content: center; }
+.rep-pos-img .word-icon-img { max-height: 48px; width: auto; }
+.rep-pos-img .word-emoji-fallback { font-size: 2.1rem; }
+.rep-pos-boxes { display: flex; gap: 8px; margin-top: 2px; }
+.rep-pos-box { width: 28px; height: 28px; border: 2px solid #334155; border-radius: 6px; background: #ffffff; }
+
+/* Repetering 2: Les og tegn */
+.rep-draw-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
+.rep-draw-card { border: 1px solid #cbd5e1; border-radius: 10px; padding: 10px; display: flex; flex-direction: column; align-items: center; gap: 8px; background: #ffffff; }
+.rep-draw-word { font-family: "Trykkskrift", sans-serif; font-size: 2.1rem; color: #0f172a; }
+.rep-draw-box { width: 100%; height: 115px; border: 1.5px dashed #94a3b8; border-radius: 8px; background: #f8fafc; }
+
+/* Oppsummering: Hele alfabetet & vokaler & diplom */
+.alpha-grid { display: grid; grid-template-columns: repeat(10, 1fr); gap: 6px; }
+.alpha-cell { height: 48px; border: 1.5px solid #cbd5e1; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-family: "Trykkskrift", sans-serif; font-size: 2rem; color: #0f172a; }
+.alpha-cell.alpha-missing { border: 1.5px dashed #64748b; background: #ffffff; }
+.alpha-cell.alpha-vowel { background: #fee2e2; border-color: #fca5a5; }
+.alpha-cell.alpha-consonant { background: #dbeafe; border-color: #93c5fd; }
+
+.vowel-row-box { display: grid; grid-template-columns: repeat(9, 1fr); gap: 8px; padding: 6px 2px; }
+.vowel-outline-char { font-family: "Trykkskrift", sans-serif; font-size: 2.3rem; height: 54px; border: 1.5px solid #fca5a5; border-radius: 10px; display: flex; align-items: center; justify-content: center; color: transparent; -webkit-text-stroke: 1.8px #dc2626; background: #fff1f2; }
+
+.diploma-box { margin-top: auto; border: 2px solid #0284c7; border-radius: 12px; padding: 12px 16px; text-align: center; background: #f0f9ff; }
+.diploma-stars { font-size: 1.7rem; letter-spacing: 8px; color: transparent; -webkit-text-stroke: 1.6px #eab308; margin-bottom: 4px; }
+.diploma-box h3 { margin: 0 0 3px; font-size: 1.05rem; color: #0369a1; }
+.diploma-box p { margin: 0; font-size: 0.85rem; color: #475569; }
+
+
+/* Repetering 2: Velg riktig ord */
+.rep-choose-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
+.rep-choose-card { border: 1px solid #cbd5e1; border-radius: 10px; padding: 8px; display: flex; flex-direction: column; align-items: center; gap: 6px; background: #ffffff; }
+.rep-choose-img { height: 48px; display: flex; align-items: center; justify-content: center; }
+.rep-choose-img .word-icon-img { max-height: 46px; width: auto; object-fit: contain; }
+.rep-choose-img .word-emoji-fallback { font-size: 2.1rem; }
+.rep-choose-words { display: flex; gap: 12px; }
+.rep-choose-word { font-family: "Trykkskrift", sans-serif; font-size: 1.75rem; line-height: 1; padding: 3px 10px; border-radius: 8px; background: #f8fafc; border: 1px dashed #cbd5e1; color: #0f172a; }
+
+/* Oppsummering: Fargelegg vokaler og konsonanter (uten fyll) */
+.vowel-color-row { display: grid; grid-template-columns: repeat(9, 1fr); gap: 8px; }
+.hollow-letter-card { height: 56px; border: 1px solid #e2e8f0; border-radius: 10px; display: flex; align-items: center; justify-content: center; background: #ffffff; }
+.hollow-letter {
+  font-family: "Trykkskrift", sans-serif;
+  font-size: 2.6rem;
+  font-weight: 900;
+  color: #ffffff;
+  -webkit-text-stroke: 1.7px #0f172a;
+  paint-order: stroke fill;
+  line-height: 1;
+}
+
+.color-scene-single {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+}
+
+.color-scene-img {
+  width: 100%;
+  max-height: 295px;
+  object-fit: contain;
+  border: none;
+  background: transparent;
+}
+/* ==========================================================================
+   8. MODALER & DIALOGBOKSER
+   ========================================================================== */
+.modal-backdrop { position: fixed; inset: 0; background: rgba(15, 23, 42, 0.5); display: flex; align-items: center; justify-content: center; z-index: 60; }
+.modal-box { background: #ffffff; padding: 20px; border-radius: 12px; width: 350px; box-shadow: 0 12px 28px rgba(0, 0, 0, 0.22); }
+.modal-box.modal-wide { width: 480px; max-width: 94vw; }
+.modal-box h2 { margin: 0 0 6px; font-size: 1.1rem; }
+.modal-box p { margin: 0 0 14px; font-size: 0.85rem; color: var(--text-muted); }
+.form-group { display: flex; flex-direction: column; gap: 4px; margin-bottom: 10px; }
+.form-group label { font-size: 0.82rem; font-weight: 600; }
+.form-group input { padding: 7px 9px; border: 1px solid #cbd5e1; border-radius: 7px; font-size: 0.9rem; }
+.weeks-editor-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; max-height: 55vh; overflow-y: auto; margin-bottom: 14px; }
+.week-edit-item { display: flex; align-items: center; justify-content: space-between; gap: 8px; background: #f8fafc; padding: 6px 8px; border-radius: 7px; border: 1px solid #e2e8f0; font-size: 0.82rem; font-weight: 600; }
+.week-edit-item input { width: 95px; padding: 4px 6px; border: 1px solid #cbd5e1; border-radius: 5px; font-size: 0.82rem; }
+.modal-actions { display: flex; justify-content: flex-end; gap: 8px; }
+.btn-modal-pri { background: var(--blue-main); color: #ffffff; border: none; border-radius: 7px; padding: 7px 14px; font-weight: 600; cursor: pointer; }
+.btn-modal-sec { background: #e2e8f0; color: var(--text-dark); border: none; border-radius: 7px; padding: 7px 14px; font-weight: 600; cursor: pointer; }
+.hidden { display: none !important; }
+.error-text { color: #dc2626; font-size: 0.82rem; margin: 4px 0 8px; }
+
+/* ==========================================================================
+   9. UTSKRIFT (PRINT A4)
+   ========================================================================== */
+@page { size: A4 portrait; margin: 0; }
+@media print {
+  * { -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; }
+  body, html { background: #ffffff !important; margin: 0 !important; padding: 0 !important; }
+  .no-print, .sidebar { display: none !important; }
+  .preview-area { display: block !important; padding: 0 !important; margin: 0 !important; gap: 0 !important; background: #ffffff !important; overflow: visible !important; }
+  .a4-sheet { width: 210mm !important; height: 297mm !important; border: none !important; box-shadow: none !important; margin: 0 !important; page-break-after: always; break-after: page; }
+  .a4-sheet:last-child { page-break-after: auto; break-after: auto; }
+.a4-sheet.print-skip { display: none !important; }
+}
+
+/* Utskriftsmodal & PDF-veiledning */
+.pmodal-box { background: #ffffff; border-radius: 16px; overflow: hidden; box-shadow: 0 20px 45px rgba(15, 23, 42, 0.32); display: flex; flex-direction: column; max-height: 92vh; }
+.pmodal-box, .pmodal-box button, .pmodal-box input { font-family: "Segoe UI", system-ui, -apple-system, sans-serif; }
+.pmodal-medium { width: 560px; max-width: 94vw; }
+.pmodal-large { width: 760px; max-width: 95vw; }
+.pmodal-zoom-box { width: 880px; max-width: 96vw; }
+.pmodal-header { padding: 16px 22px; color: #ffffff; display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+.pmodal-header-indigo { background: #4338ca; }
+.pmodal-header-green { background: #047857; }
+.pmodal-header-blue { background: #0277bd; }
+.pmodal-header-dark { background: #1e293b; }
+.pmodal-header-title { display: flex; align-items: center; gap: 12px; }
+.pmodal-header h2 { margin: 0; font-size: 1.2rem; font-weight: 700; color: #ffffff; }
+.pmodal-subtitle { margin: 2px 0 0; font-size: 0.84rem; color: rgba(255, 255, 255, 0.88); }
+.pmodal-close { background: none; border: none; color: rgba(255, 255, 255, 0.85); font-size: 1.25rem; cursor: pointer; padding: 4px 8px; border-radius: 6px; }
+.pmodal-close:hover { background: rgba(255, 255, 255, 0.15); color: #ffffff; }
+.pmodal-body { padding: 20px 24px; overflow-y: auto; display: flex; flex-direction: column; gap: 14px; }
+.pmodal-section-label { font-size: 0.78rem; font-weight: 700; letter-spacing: 0.05em; color: #64748b; text-transform: uppercase; }
+.pmodal-radio-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.pmodal-radio-card { border: 1.5px solid #cbd5e1; border-radius: 12px; padding: 13px 14px; display: flex; align-items: center; gap: 11px; cursor: pointer; transition: border-color 0.15s, background 0.15s; }
+.pmodal-radio-card input { width: 17px; height: 17px; accent-color: #4338ca; flex-shrink: 0; }
+.pmodal-radio-card strong { display: block; font-size: 0.92rem; color: #0f172a; }
+.pmodal-radio-card span { display: block; font-size: 0.78rem; color: #64748b; margin-top: 2px; }
+.pmodal-radio-card.active { border-color: #4338ca; background: #eef2ff; }
+.pmodal-divider { border: none; border-top: 1px solid #e2e8f0; margin: 2px 0; }
+.pmodal-checkbox-row { display: inline-flex; align-items: center; gap: 10px; font-size: 0.92rem; font-weight: 600; color: #1e293b; cursor: pointer; }
+.pmodal-checkbox-row input { width: 17px; height: 17px; accent-color: #0277bd; }
+.pmodal-estimate-box { background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 11px; padding: 13px 16px; display: flex; align-items: center; justify-content: space-between; font-size: 0.92rem; color: #475569; }
+.pmodal-estimate-box strong { font-size: 1.05rem; color: #4338ca; }
+.pmodal-footer { padding: 14px 24px 18px; border-top: 1px solid #f1f5f9; display: flex; align-items: center; justify-content: flex-end; gap: 10px; }
+.pmodal-footer.space-between { justify-content: space-between; }
+.pmodal-btn { border: none; border-radius: 10px; padding: 10px 18px; font-size: 0.92rem; font-weight: 700; display: inline-flex; align-items: center; gap: 8px; cursor: pointer; }
+.pmodal-btn-ghost { background: #ffffff; border: 1px solid #cbd5e1; color: #334155; }
+.pmodal-btn-ghost:hover { background: #f8fafc; }
+.pmodal-btn-plain { background: transparent; color: #475569; padding-left: 4px; }
+.pmodal-btn-indigo { background: #4338ca; color: #ffffff; }
+.pmodal-btn-indigo:hover { background: #3730a3; }
+.pmodal-btn-green { background: #047857; color: #ffffff; }
+.pmodal-btn-green:hover { background: #065f46; }
+.pmodal-btn-blue { background: #0277bd; color: #ffffff; }
+.pmodal-btn-blue:hover { background: #01579b; }
+.pmodal-btn-dark { background: #1e293b; color: #ffffff; }
+.pmodal-btn-dark:hover { background: #0f172a; }
+.pmodal-step-title { margin: 0; font-size: 0.98rem; font-weight: 700; color: #0f172a; }
+.pmodal-ol { margin: 0; padding-left: 20px; display: flex; flex-direction: column; gap: 6px; font-size: 0.88rem; color: #334155; line-height: 1.45; }
+.pmodal-zoom-link { color: #047857; font-weight: 700; text-decoration: underline; }
+.pmodal-step2-header { display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap; border-top: 1px solid #e2e8f0; padding-top: 12px; }
+.pmodal-tabs { background: #f1f5f9; padding: 3px; border-radius: 9px; display: inline-flex; gap: 4px; }
+.pmodal-tab { border: none; background: transparent; padding: 6px 12px; border-radius: 7px; font-size: 0.82rem; font-weight: 700; color: #475569; cursor: pointer; }
+.pmodal-tab.active { background: #ffffff; color: #047857; box-shadow: 0 1px 3px rgba(15, 23, 42, 0.12); }
+#pdf-ready-modal .pmodal-tab.active { color: #0277bd; }
+.pmodal-tab-pane { display: none; flex-direction: column; gap: 12px; }
+.pmodal-tab-pane.active { display: flex; }
+.pmodal-thumbs-grid { display: grid; gap: 12px; }
+.pmodal-thumbs-grid.cols-3 { grid-template-columns: repeat(3, 1fr); }
+.pmodal-thumbs-grid.cols-2 { grid-template-columns: repeat(2, 1fr); }
+.pmodal-thumb-card { border: 1px solid #e2e8f0; border-radius: 12px; padding: 10px; text-align: center; background: #ffffff; cursor: zoom-in; transition: border-color 0.15s, box-shadow 0.15s; }
+.pmodal-thumb-card:hover { border-color: #94a3b8; box-shadow: 0 4px 12px rgba(15, 23, 42, 0.08); }
+.pmodal-thumb-card span { display: block; font-size: 0.82rem; font-weight: 700; color: #1e293b; margin-bottom: 8px; }
+.pmodal-thumb-card img { max-width: 100%; height: 115px; object-fit: contain; border-radius: 6px; border: 1px solid #f1f5f9; }
+.pmodal-zoom-hint { text-align: right; font-size: 0.78rem; font-style: italic; color: #64748b; }
+.pmodal-open-pdf-banner { background: #f0f9ff; border: 1px solid #bae6fd; border-radius: 12px; padding: 14px 16px; display: flex; flex-direction: column; align-items: flex-start; gap: 8px; }
+.pmodal-open-pdf-banner h3 { margin: 0; font-size: 0.96rem; color: #0f172a; }
+.pmodal-open-pdf-banner p { margin: 0; font-size: 0.85rem; color: #475569; }
+.pmodal-zoom-body { padding: 16px; background: #0f172a; display: flex; justify-content: center; align-items: center; overflow: auto; }
+.pmodal-zoom-body img { max-width: 100%; max-height: 78vh; border-radius: 8px; background: #ffffff; }
+
+/* FLYTENDE ZOOM-KONTROLL */
+.floating-zoom {
+  position: fixed;
+  top: 50%;
+  right: 16px;
+  z-index: 900;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 3px;
+  width: 44px;
+  padding: 5px;
+  transform: translateY(-50%);
+  border: 1px solid #e2e8f0;
+  border-radius: 24px;
+  background: #ffffff;
+  box-shadow: 0 3px 12px rgba(15, 23, 42, 0.12);
+}
+
+.floating-zoom button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 34px;
+  height: 34px;
+  border: 0;
+  border-radius: 50%;
+  background: transparent;
+  color: #475569;
+  font-family: inherit;
+  font-size: 1.15rem;
+  font-weight: 600;
+  line-height: 1;
+  cursor: pointer;
+  transition: background 0.15s, color 0.15s;
+}
+
+.floating-zoom button:hover {
+  background: #eff6ff;
+  color: #0284c7;
+}
+
+#zoomValText {
+  width: 38px;
+  height: auto;
+  padding: 4px 0;
+  border-radius: 8px;
+  color: #0284c7;
+  font-size: 10px;
+  font-weight: 700;
+  line-height: 1.15;
+  text-align: center;
+  white-space: pre-line;
+}
+
+@media print {
+  .floating-zoom,
+  .no-print {
+    display: none !important;
+  }
+
+  /* Sikre at utskrift alltid bruker 100 % naturlig A4-størrelse uten CSS-skalering */
+  #sheets-container .a4-sheet {
+    transform: none !important;
+    margin-bottom: 0 !important;
+  }
+}
+
+/* Skjul matte-valg og gjør norsk-visning til standard */
+.pill-group,
+.mini-chip[data-sub^="matte."] {
+  display: none !important;
+}
