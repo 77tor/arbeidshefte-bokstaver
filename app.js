@@ -1202,19 +1202,25 @@ if (tasks.colorByLetter) {
 // 2. INNHOLDSFORTEGNELSE (SIDE 2)
     if (showToc) {
       const tocRowsHTML = tocEntries.length > 0
-        ? tocEntries.map((entry) => `
-            <div class="toc-row">
-              <div class="toc-left">
-                <span class="toc-sheet">${entry.sheetTitle}</span>
-                ${entry.weekLabel ? `<span class="toc-week">(${entry.weekLabel})</span>` : ""}
-                ${entry.topicHTML ? `<span class="toc-letters">${entry.topicHTML}</span>` : ""}
+        ? tocEntries.map((entry) => {
+            const formattedTopic = entry.topicHTML
+              ? entry.topicHTML.replace(/(:\s*)(.*)$/i, (_, prefix, rest) => prefix + rest.toLowerCase())
+              : "";
+
+            return `
+              <div class="toc-row">
+                <div class="toc-left">
+                  <span class="toc-sheet">${entry.sheetTitle}</span>
+                  ${entry.weekLabel ? `<span class="toc-week">(${entry.weekLabel})</span>` : ""}
+                  ${formattedTopic ? `<span class="toc-letters">${formattedTopic}</span>` : ""}
+                </div>
+                <div class="toc-dots"></div>
+                <div class="toc-right">
+                  <span class="toc-page">s. ${entry.pageRange}</span>
+                </div>
               </div>
-              <div class="toc-dots"></div>
-              <div class="toc-right">
-                <span class="toc-page">s. ${entry.pageRange}</span>
-              </div>
-            </div>
-          `).join("")
+            `;
+          }).join("")
         : `<p class="toc-empty">Ingen arbeidsark er valgt for visning.</p>`;
 
       pagesToRender.push({
