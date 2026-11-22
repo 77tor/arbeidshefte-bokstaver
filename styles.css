@@ -389,7 +389,7 @@ body.show-watermark #sheet-page-cover-back::after {
   background: transparent;
 }
 /* ==========================================================================
-   8. MODALER & DIALOGBOKSER
+8. MODALER & DIALOGBOKSER
    ========================================================================== */
 .modal-backdrop { position: fixed; inset: 0; background: rgba(15, 23, 42, 0.5); display: flex; align-items: center; justify-content: center; z-index: 60; }
 .modal-box { background: #ffffff; padding: 20px; border-radius: 12px; width: 350px; box-shadow: 0 12px 28px rgba(0, 0, 0, 0.22); }
@@ -399,17 +399,20 @@ body.show-watermark #sheet-page-cover-back::after {
 .form-group { display: flex; flex-direction: column; gap: 4px; margin-bottom: 10px; }
 .form-group label { font-size: 0.82rem; font-weight: 600; }
 .form-group input { padding: 7px 9px; border: 1px solid #cbd5e1; border-radius: 7px; font-size: 0.9rem; }
+.form-group input:focus, .week-edit-item input:focus { outline: none; border-color: #16a34a; box-shadow: 0 0 0 3px rgba(22, 163, 74, 0.16); }
 .weeks-editor-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; max-height: 55vh; overflow-y: auto; margin-bottom: 14px; }
 .week-edit-item { display: flex; align-items: center; justify-content: space-between; gap: 8px; background: #f8fafc; padding: 6px 8px; border-radius: 7px; border: 1px solid #e2e8f0; font-size: 0.82rem; font-weight: 600; }
 .week-edit-item input { width: 95px; padding: 4px 6px; border: 1px solid #cbd5e1; border-radius: 5px; font-size: 0.82rem; }
 .modal-actions { display: flex; justify-content: flex-end; gap: 8px; }
-.btn-modal-pri { background: var(--blue-main); color: #ffffff; border: none; border-radius: 7px; padding: 7px 14px; font-weight: 600; cursor: pointer; }
+.btn-modal-pri { background: #15803d; color: #ffffff; border: none; border-radius: 7px; padding: 7px 14px; font-weight: 600; cursor: pointer; }
+.btn-modal-pri:hover { background: #166534; }
 .btn-modal-sec { background: #e2e8f0; color: var(--text-dark); border: none; border-radius: 7px; padding: 7px 14px; font-weight: 600; cursor: pointer; }
+.btn-modal-sec:hover { background: #cbd5e1; }
 .hidden { display: none !important; }
 .error-text { color: #dc2626; font-size: 0.82rem; margin: 4px 0 8px; }
 
 /* ==========================================================================
-   9. UTSKRIFT (PRINT A4)
+9. UTSKRIFT (PRINT A4)
    ========================================================================== */
 @page { size: A4 portrait; margin: 0; }
 @media print {
@@ -419,7 +422,7 @@ body.show-watermark #sheet-page-cover-back::after {
   .preview-area { display: block !important; padding: 0 !important; margin: 0 !important; gap: 0 !important; background: #ffffff !important; overflow: visible !important; }
   .a4-sheet { width: 210mm !important; height: 297mm !important; border: none !important; box-shadow: none !important; margin: 0 !important; page-break-after: always; break-after: page; }
   .a4-sheet:last-child { page-break-after: auto; break-after: auto; }
-.a4-sheet.print-skip { display: none !important; }
+  .a4-sheet.print-skip { display: none !important; }
 }
 
 /* Utskriftsmodal & PDF-veiledning */
@@ -429,9 +432,9 @@ body.show-watermark #sheet-page-cover-back::after {
 .pmodal-large { width: 760px; max-width: 95vw; }
 .pmodal-zoom-box { width: 880px; max-width: 96vw; }
 .pmodal-header { padding: 16px 22px; color: #ffffff; display: flex; align-items: center; justify-content: space-between; gap: 12px; }
-.pmodal-header-indigo { background: #4338ca; }
-.pmodal-header-green { background: #047857; }
-.pmodal-header-blue { background: #0277bd; }
+.pmodal-header-indigo,
+.pmodal-header-green,
+.pmodal-header-blue { background: #15803d; }
 .pmodal-header-dark { background: #1e293b; }
 .pmodal-header-title { display: flex; align-items: center; gap: 12px; }
 .pmodal-header h2 { margin: 0; font-size: 1.2rem; font-weight: 700; color: #ffffff; }
@@ -442,48 +445,61 @@ body.show-watermark #sheet-page-cover-back::after {
 .pmodal-section-label { font-size: 0.78rem; font-weight: 700; letter-spacing: 0.05em; color: #64748b; text-transform: uppercase; }
 .pmodal-radio-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
 .pmodal-radio-card { border: 1.5px solid #cbd5e1; border-radius: 12px; padding: 13px 14px; display: flex; align-items: center; gap: 11px; cursor: pointer; transition: border-color 0.15s, background 0.15s; }
-.pmodal-radio-card input { width: 17px; height: 17px; accent-color: #4338ca; flex-shrink: 0; }
+.pmodal-radio-card input { width: 17px; height: 17px; accent-color: #15803d; flex-shrink: 0; }
 .pmodal-radio-card strong { display: block; font-size: 0.92rem; color: #0f172a; }
 .pmodal-radio-card span { display: block; font-size: 0.78rem; color: #64748b; margin-top: 2px; }
-.pmodal-radio-card.active { border-color: #4338ca; background: #eef2ff; }
+.pmodal-radio-card.active { border-color: #16a34a; background: #f0fdf4; }
 .pmodal-divider { border: none; border-top: 1px solid #e2e8f0; margin: 2px 0; }
 .pmodal-checkbox-row { display: inline-flex; align-items: center; gap: 10px; font-size: 0.92rem; font-weight: 600; color: #1e293b; cursor: pointer; }
-.pmodal-checkbox-row input { width: 17px; height: 17px; accent-color: #0277bd; }
-.pmodal-estimate-box { background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 11px; padding: 13px 16px; display: flex; align-items: center; justify-content: space-between; font-size: 0.92rem; color: #475569; }
-.pmodal-estimate-box strong { font-size: 1.05rem; color: #4338ca; }
+.pmodal-checkbox-row input { width: 17px; height: 17px; accent-color: #15803d; }
+.pmodal-estimate-box { background: #f0fdf4; border: 1px solid #bbf7d0; border-radius: 11px; padding: 13px 16px; display: flex; align-items: center; justify-content: space-between; font-size: 0.92rem; color: #334155; }
+.pmodal-estimate-box strong { font-size: 1.05rem; color: #15803d; }
 .pmodal-footer { padding: 14px 24px 18px; border-top: 1px solid #f1f5f9; display: flex; align-items: center; justify-content: flex-end; gap: 10px; }
 .pmodal-footer.space-between { justify-content: space-between; }
 .pmodal-btn { border: none; border-radius: 10px; padding: 10px 18px; font-size: 0.92rem; font-weight: 700; display: inline-flex; align-items: center; gap: 8px; cursor: pointer; }
 .pmodal-btn-ghost { background: #ffffff; border: 1px solid #cbd5e1; color: #334155; }
 .pmodal-btn-ghost:hover { background: #f8fafc; }
 .pmodal-btn-plain { background: transparent; color: #475569; padding-left: 4px; }
-.pmodal-btn-indigo { background: #4338ca; color: #ffffff; }
-.pmodal-btn-indigo:hover { background: #3730a3; }
-.pmodal-btn-green { background: #047857; color: #ffffff; }
-.pmodal-btn-green:hover { background: #065f46; }
-.pmodal-btn-blue { background: #0277bd; color: #ffffff; }
-.pmodal-btn-blue:hover { background: #01579b; }
+/* Vanlig utskrift: Mørk grønn */
+.pmodal-btn-indigo,
+.pmodal-btn-blue {
+  background: #15803d;
+  color: #ffffff;
+}
+.pmodal-btn-indigo:hover,
+.pmodal-btn-blue:hover {
+  background: #166534;
+}
+/* Lag PDF for hefte: Lysere, frisk smaragdgrønn (eller bytt til #dcfce7 med #166534 tekst) */
+.pmodal-btn-green {
+  background: #0d9488;
+  color: #ffffff;
+}
+.pmodal-btn-green:hover {
+  background: #0f766e;
+}
+.pmodal-btn-blue:hover { background: #166534; }
 .pmodal-btn-dark { background: #1e293b; color: #ffffff; }
 .pmodal-btn-dark:hover { background: #0f172a; }
 .pmodal-step-title { margin: 0; font-size: 0.98rem; font-weight: 700; color: #0f172a; }
 .pmodal-ol { margin: 0; padding-left: 20px; display: flex; flex-direction: column; gap: 6px; font-size: 0.88rem; color: #334155; line-height: 1.45; }
-.pmodal-zoom-link { color: #047857; font-weight: 700; text-decoration: underline; }
+.pmodal-zoom-link { color: #15803d; font-weight: 700; text-decoration: underline; }
 .pmodal-step2-header { display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap; border-top: 1px solid #e2e8f0; padding-top: 12px; }
 .pmodal-tabs { background: #f1f5f9; padding: 3px; border-radius: 9px; display: inline-flex; gap: 4px; }
 .pmodal-tab { border: none; background: transparent; padding: 6px 12px; border-radius: 7px; font-size: 0.82rem; font-weight: 700; color: #475569; cursor: pointer; }
-.pmodal-tab.active { background: #ffffff; color: #047857; box-shadow: 0 1px 3px rgba(15, 23, 42, 0.12); }
-#pdf-ready-modal .pmodal-tab.active { color: #0277bd; }
+.pmodal-tab.active,
+#pdf-ready-modal .pmodal-tab.active { background: #ffffff; color: #15803d; box-shadow: 0 1px 3px rgba(15, 23, 42, 0.12); }
 .pmodal-tab-pane { display: none; flex-direction: column; gap: 12px; }
 .pmodal-tab-pane.active { display: flex; }
 .pmodal-thumbs-grid { display: grid; gap: 12px; }
 .pmodal-thumbs-grid.cols-3 { grid-template-columns: repeat(3, 1fr); }
 .pmodal-thumbs-grid.cols-2 { grid-template-columns: repeat(2, 1fr); }
 .pmodal-thumb-card { border: 1px solid #e2e8f0; border-radius: 12px; padding: 10px; text-align: center; background: #ffffff; cursor: zoom-in; transition: border-color 0.15s, box-shadow 0.15s; }
-.pmodal-thumb-card:hover { border-color: #94a3b8; box-shadow: 0 4px 12px rgba(15, 23, 42, 0.08); }
+.pmodal-thumb-card:hover { border-color: #86efac; box-shadow: 0 4px 12px rgba(21, 128, 61, 0.12); }
 .pmodal-thumb-card span { display: block; font-size: 0.82rem; font-weight: 700; color: #1e293b; margin-bottom: 8px; }
 .pmodal-thumb-card img { max-width: 100%; height: 115px; object-fit: contain; border-radius: 6px; border: 1px solid #f1f5f9; }
 .pmodal-zoom-hint { text-align: right; font-size: 0.78rem; font-style: italic; color: #64748b; }
-.pmodal-open-pdf-banner { background: #f0f9ff; border: 1px solid #bae6fd; border-radius: 12px; padding: 14px 16px; display: flex; flex-direction: column; align-items: flex-start; gap: 8px; }
+.pmodal-open-pdf-banner { background: #f0fdf4; border: 1px solid #bbf7d0; border-radius: 12px; padding: 14px 16px; display: flex; flex-direction: column; align-items: flex-start; gap: 8px; }
 .pmodal-open-pdf-banner h3 { margin: 0; font-size: 0.96rem; color: #0f172a; }
 .pmodal-open-pdf-banner p { margin: 0; font-size: 0.85rem; color: #475569; }
 .pmodal-zoom-body { padding: 16px; background: #0f172a; display: flex; justify-content: center; align-items: center; overflow: auto; }
@@ -502,7 +518,7 @@ body.show-watermark #sheet-page-cover-back::after {
   width: 44px;
   padding: 5px;
   transform: translateY(-50%);
-  border: 1px solid #e2e8f0;
+  border: 1px solid #bbf7d0;
   border-radius: 24px;
   background: #ffffff;
   box-shadow: 0 3px 12px rgba(15, 23, 42, 0.12);
@@ -527,8 +543,8 @@ body.show-watermark #sheet-page-cover-back::after {
 }
 
 .floating-zoom button:hover {
-  background: #eff6ff;
-  color: #0284c7;
+  background: #f0fdf4;
+  color: #15803d;
 }
 
 #zoomValText {
@@ -536,7 +552,7 @@ body.show-watermark #sheet-page-cover-back::after {
   height: auto;
   padding: 4px 0;
   border-radius: 8px;
-  color: #0284c7;
+  color: #15803d;
   font-size: 10px;
   font-weight: 700;
   line-height: 1.15;
