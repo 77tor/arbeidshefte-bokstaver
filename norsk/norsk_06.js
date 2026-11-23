@@ -10,9 +10,9 @@ window.NORSK_DATA[6] = {
     { ord: "bur", emoji: "", starterMed: false }
   ],
   skriveOrd: [
-    { ord: "øks", emoji: "" },
+    { ord: "øre", emoji: "" },
     { ord: "mus", emoji: "" },
-    { ord: "øre", emoji: "" }
+    { ord: "øve", emoji: "" }
 ],
   rimOppsett: "kryss", // Valg: "kryss", "rett", "miks" eller "oppned"
   rimOrd: [

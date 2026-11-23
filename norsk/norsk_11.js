@@ -10,9 +10,9 @@ window.NORSK_DATA[11] = {
     { ord: "ball", emoji: "🐭", starterMed: false }
   ],
   skriveOrd: [
-    { ord: "fisk", emoji: "🐟" },
     { ord: "hus", emoji: "🏠" },
-    { ord: "hatt", emoji: "🎩" }
+    { ord: "fisk", emoji: "🐟" },
+    { ord: "hest", emoji: "" }
   ],
   rimOppsett: "kryss", // Valg: "kryss", "rett", "miks" eller "oppned"
   rimOrd: [
